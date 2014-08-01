@@ -1,0 +1,9 @@
+<dl class="comment-list">
+{% for comment in comment_list %}
+    <dd><a class="recent-comment" href="{{ comment.get_absolute_url }}">{{ comment.comment|escape|urlizetrunc:"40"|linebreaks|truncatewords:"30" }}</a></dd>
+	<dt><a href="{{ comment.get_absolute_url }}">{{ comment.person_name }}</a>
+		<span class="small"> /
+		<a href="{{ comment.get_content_object.get_absolute_url }}">{{ comment.get_content_object.fixed_name|escape }}</a>
+        </span></dt>
+{% endfor %}
+</dl>

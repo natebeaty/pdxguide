@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load markup %}
+
+{% block title %}{{ flatpage.title }}{% endblock %}
+{% block sectionid %}printcopy{% endblock %}
+{% block breadcrumb %}<a href="/">Home</a> / Printcopy{% endblock %}
+
+{% block content %}
+{{ flatpage.content|textile }}
+{% endblock %}
+
+{% block content-secondary %}
+	<div class="printcopy">
+		<a href="http://www.microcosmpublishing.com/catalog/books/337/"><img src="/media/img/printcopy.png" alt="Zinester's Guide, Fourh Edition" /></a>
+		<p class="small quiet">128 pages, 4.25&#8221; x 7&#8221;, color cover by Nate Beaty.</p>
+		<a href="http://www.microcosmpublishing.com/catalog/books/337/"><img src="/media/img/order_button.png" alt-"Order" /></a>
+	</div>
+{% endblock %}

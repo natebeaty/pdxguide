@@ -1,0 +1,10 @@
+{% load guide_extras %}
+{% load comments %}
+
+{% if object.is_active %}
+{% get_free_comment_count for guide.article object.id as comment_count %}
+	<li>
+		<a href="{{ object.get_absolute_url }}" {% if object.has_map %} onmouseout="maplink_out({{ object.id }});" onmouseover="maplink_over({{ object.id }});" onclick="maplink_click({{ object.id }}); return false;" {% endif %}>{{ object.fixed_name }}</a>
+		{% if comment_count %}<span class="comment_count">({{ comment_count }} comment{{ comment_count|pluralize }})</span>{% endif %}
+	</li>
+{% endif %}

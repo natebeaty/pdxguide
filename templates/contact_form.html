@@ -1,0 +1,84 @@
+{% extends "base_2col.html" %}
+{% block title %}Contact{% endblock %}
+{% block extrahead %}
+	<script src="/media/js/form_validator.js" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+{% block sectionid %}contact{% endblock %}
+{% block breadcrumb %}<a href="/">Home</a> / Contact{% endblock %}
+{% block content %}
+<h2>Contact us</h2>
+
+<div class="intro">
+	<p>If you'd like to send something in the post, snail-like, here's our physical address:</p>
+	<address>ZINESTER'S GUIDE TO PORTLAND<br />
+		      P O BOX 14185<br />
+		      PORTLAND OR 97293-0185
+	      </address>
+</div>
+
+{% if form.has_errors %}
+<div class="alert">
+<h3>There were errors in your submission.</h3>
+<p>Please address the marked field{{ errors|pluralize }}:</p>
+</div>
+{% endif %}
+
+<!-- {% if errors %}
+	<div class="alert">
+		<ul>
+		    {% for e in errors.items %}
+		    <li>Field "{{ e.0 }}": {{ e.1|join:", " }}</li>
+		    {% endfor %}
+		</ul>
+	</div>
+{% endif %} -->
+
+<form id="contact-form" action="" method="post" >
+	<fieldset>
+		<h3>Select your contact:</h3>
+		{% if form.to.errors %}
+			<p class="error">{{ form.to.errors|join:", "}}</p>
+		{% endif %}
+		{{ form.to }}<br />
+</fieldset>
+<fieldset>
+		{% if form.subject.errors %}
+			<p class="error">{{ form.subject.errors|join:", "}}</p>
+		{% endif %}
+		 <label for="id_subject">Subject:</label>
+		{{ form.subject }}<br />
+
+		{% if form.message.errors %}
+			<p class="error">{{ form.message.errors|join:", "}}</p>
+		{% endif %}
+		 <label class="required" for="id_message">Message:</label>
+		{{ form.message }}<br />
+
+		{% if form.name.errors %}
+			<p class="error">{{ form.name.errors|join:", "}}</p>
+		{% endif %}
+		 <label class="required" for="id_name">Name:</label>
+		{{ form.name }}<br />
+
+		{% if form.from.errors %}
+			<p class="error">{{ form.from.errors|join:", "}}</p>
+		{% endif %}
+		 <label class="required" for="id_from">Email:</label>
+		{{ form.from }}<br />
+	</fieldset>
+
+	<div id="actions"><input id="submit-button" type="image" value="Submit Contact" src="/media/img/submit_button.gif" /></div>
+</form>
+
+<script type="text/javascript">
+
+		var frmvalidator = new Validator("contact-form");
+		frmvalidator.addValidation("from","req","Please enter your email.");
+		frmvalidator.addValidation("from","email","Email did not validate. Please double-check your email.");
+		frmvalidator.addValidation("name","req","Please enter a name.");
+		frmvalidator.addValidation("message","req","Please enter a message.");
+		frmvalidator.addValidation("to","req","Please select a recipient.");
+
+</script>
+{% endblock %}
+{% block content-secondary %}{% endblock %}

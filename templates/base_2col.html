@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block columnwrap %}
+<div id="content">
+	<div id="breadcrumb">
+		{% block breadcrumb %}
+			Home
+		{% endblock %}
+	</div>
+		<div id="content-large">
+		{% block content %}
+		{% endblock %}
+		</div>
+		<!-- END #content-large -->
+   </div><!-- END #content -->
+<div class="spacer">&nbsp;</div>
+{% endblock %}

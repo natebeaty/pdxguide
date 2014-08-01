@@ -1,0 +1,7 @@
+.venv/
+*.pyc
+wrk/
+virtualenv.py
+.DS_Store
+codekit-config.json
+

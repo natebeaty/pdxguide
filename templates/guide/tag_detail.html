@@ -1,0 +1,14 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<h1>Posts with tag '{{ object.title|escape }}'</h1>
+{% for post in object.post_set.all %}
+        <h2><a href="{{ post.get_absolute_url }}">foo{{ post.title }}</a></h2>
+        {% if post.image %}<img align="right" src="{{ post.get_image_url }}" /> {% endif %}
+
+        <p>{{ post.body|truncatewords:80 }}</p>
+
+        <div class="article_menu"><b>Posted on {{ post.date|date:"F j, Y" }}</b> <a href="{{ post.get_absolute_url }}#comments">View/Add Comments</a><br />Tags: {% for tag in post.get_tag_list %}{% if not forloop.first %}, {% endif %}{{ tag.title }}{% endfor %}</div>
+
+{% endfor %}
+{% endblock %}

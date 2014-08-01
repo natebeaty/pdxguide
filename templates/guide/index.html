@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load markup %}
+
+{% block title %}{{ flatpage.title }}{% endblock %}
+
+{% block content %}
+	{% if latest_article_list %}
+	    <ul>
+	    {% for article in latest_article_list %}
+	        <li>{{ article.name }} - {{article.quadrant_id}}</li>
+	    {% endfor %}
+	    </ul>
+	{% else %}
+	    <p>No articles found.</p>
+	{% endif %}
+{% endblock %}

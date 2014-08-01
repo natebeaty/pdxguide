@@ -1,0 +1,31 @@
+{% load markup %}
+{% load guide_extras %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="ROBOTS" content="ALL" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="MSSmartTagsPreventParsing" content="true" />
+
+	<title>Zinester's Guide to Portland | {% block title %}Low budget guide to Portland, OR{% endblock %}</title>
+	<link href="/media/css/{% block cssid %}base_offline{% endblock %}.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="/media/css/print.css" rel="stylesheet" type="text/css" media="print" />
+
+	{% block extrahead %}{% endblock %}
+</head>
+{% block bodytag %}<body>{% endblock %}
+
+<div id="wrapper">
+    <div id="columnwrap">
+            {% block columnwrap %}
+                    <div id="content-main">
+                    {% block content %}{% endblock %}
+                    </div>
+                    <!-- END #content-main -->
+            {% endblock %}
+    </div>
+    <!-- END #content -->
+</div>
+<!-- END #wrapper -->
+</body>
+</html>

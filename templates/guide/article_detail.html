@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load markup %}
+{% load guide_extras %}
+
+{% block title %}{{ article.name }}{% endblock %}
+{% block sectionid %}browse{% endblock %}
+	{% block extrahead %}
+	{% if article.has_map %}
+		<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;key=ABQIAAAACvtD57HUMSSX097_NCrhTxSJOfrjYHsYl51woUO12uHlhG1aoxSVcFX5iLgJQNa9eLccwrx2XqLPrg" type="text/javascript"></script>
+		<script src="/media/js/maps.js" type="text/javascript"></script>
+	{% endif %}
+	{% endblock %}
+	{% block extrabody %} onload="convertExternalLinks(); loadMap()" onunload="GUnload()" {% endblock %}
+{% block breadcrumb %}<a href="/">Home</a> / <a href="/browse/">Browse</a> / <a href="{{ article.quadrant.get_absolute_url }}">{{ article.quadrant.name }}</a> / <a href="{{ article.quadrant.get_absolute_url}}{{ article.section.slug }}/">{{ article.section.name }}</a> / {{ article.fixed_name }}{% endblock %}
+
+{% block content %}
+	<div class="article">
+		<h2>{{ article.fixed_name }}</h2>
+		{% if article.has_info %}
+		<div class="article-info">
+			{% if article.address %}
+			<p class="address">{{ article.address }}</p>
+			{% endif %}
+			{% if article.details %}
+			<p class="details">{{ article.details }}</p>
+			{% endif %}
+			{% if article.phone %}
+			<p class="phone">{{ article.phone }}</p>
+			{% endif %}
+			{% if article.url %}
+			<p class="url"><a href="{{ article.url }}" class="external">Visit Website</a></p>
+			{% endif %}
+		</div>
+		{% endif %}
+		<div class="description">{{ article.description|textile }}</div>
+	</div>
+	{% if article.parent %}
+	<div class="related-articles">
+		<h3><span>Parent article:</span></h3>
+		<h4><a href="{{ article.parent.get_absolute_url }}">{{ article.parent.fixed_name }}
+			(<span class="address">{{ article.parent.address }}</span> ~
+			<span class="phone">{{ article.parent.phone }}</span>)
+			</a></h4>
+		<div class="description">{{ article.parent.description|textile }}</div>
+	</div>
+	{% endif %}
+
+	{% if article.child_set.all %}
+	<div class="related-articles">
+		<h3><span>Related Articles</span></h3>
+		<ul>
+			{% for article in article.child_set.all  %}
+			<li><a href="{{ article.get_absolute_url }}">{{ article.fixed_name }}</a></li>
+			{% endfor %}		
+		</ul>
+	</div>
+	{% endif %}
+
+	{% load comments %}
+
+	{% comment %}
+	<!-- turned off comments 12/22/10 per shawn's request -n -->
+	<div id="comments">
+	{% get_free_comment_list for guide.article article.id as comment_list %}
+	{% if comment_list %}
+		<h3>Comments</h2>
+		{% include "comments/comment_listing.html" %}
+	{% endif %}
+
+	<h3>Post a comment</h3> #}
+	{% free_comment_form for guide.article article.id %}
+	{% endcomment %}
+	
+	<p class="quiet" style="margin-top:24px;">Comments are closed. Please use our <a href="/contact/">contact form</a> if have a correction.</p>
+	</div>
+
+{% endblock %}
+
+	{% block content-secondary %}
+	{% if article.has_map %}
+	<script type="text/javascript">
+	// POPULATE ARTICLE_LIST FOR loadMap() ON BODY LOAD
+	var article_list = [[{{ article.longitude }}, {{ article.latitude }}, '{{ article.fixed_name|escape }}', '{{ article.section.name|escape }}', '{{ article.get_absolute_url|escape }}', '{{ article.address|escape }}', '{{ article.phone|escape }}']];
+	</script>
+	<div id="map"></div>
+	{% else %}
+	<div id="map"><img src="/media/img/nomap.gif" class="nomap" /></div>
+	{% endif %}
+	{% endblock %}

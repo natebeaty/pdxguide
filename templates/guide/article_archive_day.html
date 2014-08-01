@@ -1,0 +1,12 @@
+{% extends "blog/base.html" %}
+
+{% block content %}
+<h2>Blog: {{ day|date:"F j, Y" }} Archive</h2>
+{% for object in object_list %}
+        <h2><a id="{{ object.slug }}" xhref="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
+        {% if object.image %}<img align="right" xsrc="{{ object.get_image_url }}" /> {% endif %}
+        <p>{{ object.body|truncatewords:80 }}</p>
+
+        <div class="article_menu"><b>Posted on {{ object.date|date:"F j, Y" }}</b></div>
+{% endfor %}
+{% endblock %}

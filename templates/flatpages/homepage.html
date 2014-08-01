@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load markup %}
+
+{% block title %}{{ flatpage.title }}{% endblock %}
+{% block sectionid %}{{ flatpage.title|slugify|lower }}{% endblock %}
+{% block breadcrumb %}{% endblock %}
+
+{% block content %}
+{{ flatpage.content|textile }}
+{% endblock %}

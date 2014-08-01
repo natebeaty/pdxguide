@@ -1,0 +1,9 @@
+<dl class="comment-list">
+{% for comment in comment_list %}
+    <dd>{{ comment.comment|escape|urlizetrunc:"40"|linebreaks|truncatewords:"30" }}</dd>
+	<dt><a href="{{ comment.get_absolute_url }}">{{ comment.person_name }}</a> on
+		<a href="{{ comment.get_content_object.get_absolute_url }}">{{ comment.get_content_object.fixed_name|escape }}</a>
+		<span class="small quiet">{{ comment.submit_date|date:"F j" }} at {{ comment.submit_date|date:"P" }}</span>
+	</dt>
+{% endfor %}
+</dl>

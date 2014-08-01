@@ -1,0 +1,5 @@
+body { background:#6d6d86; text-align:center; font-size:12px; 
+	font-family:'Lucida Grande', Geneva, Helvetica, sans-serif;
+	}
+#wrapper { width:500px; margin:20px auto; text-align:left; padding:80px 10px 10px 10px; background:#22203a url(/media/img/logo.gif) 120px 16px no-repeat; }
+#content-main { padding:20px; background:#fff; }

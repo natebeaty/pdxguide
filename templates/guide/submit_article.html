@@ -1,0 +1,239 @@
+{% extends "base_2col.html" %}
+{% load i18n %}
+{% block title %}{% trans "Add Event" %}{% endblock %}
+{% block extrahead %}
+	<script type="text/javascript" src="/jsi18n/"></script>	
+	<script type="text/javascript" src="/admin_media/js/core.js"></script>
+	<script type="text/javascript" src="/admin_media/js/admin/RelatedObjectLookups.js"></script>
+	<script type="text/javascript" src="/admin_media/js/urlify.js"></script>
+	<script type="text/javascript" src="/admin_media/js/calendar.js"></script>
+	<script type="text/javascript" src="/admin_media/js/admin/DateTimeShortcuts.js"></script>
+	<script type="text/javascript" src="/admin_media/js/admin/CollapsedFieldsets.js"></script>
+	<script src="/media/js/form_validator.js" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+{% block sectionid %}submit{% endblock %}
+{% block breadcrumb %}<a href="/">Home</a> / Submit an Article{% endblock %}
+{% block content %}
+<h2>Add a new article</h2>
+
+{% if form.has_errors %}
+<div class="alert">
+<h3>There were errors in your submission.</h3>
+<p>Please address the marked field{{ errors|pluralize }}:</p>
+</div>
+{% endif %}
+
+{% if jsCheck %}
+<div class="alert">
+<p>{{ jsCheck }}</p>
+</div>
+{% endif %}
+
+<!-- {% if errors %}
+	<div class="alert">
+		<ul>
+		    {% for e in errors.items %}
+		    <li>Field "{{ e.0 }}": {{ e.1|join:", " }}</li>
+		    {% endfor %}
+		</ul>
+	</div>
+{% endif %} -->
+
+<h3>Please read this before you submit your entry!</h3>
+
+<p>We here at the Zinester&#8217;s Guide are looking for well written
+articles about interesting things to see and do in Portland,
+Oregon.</p>
+
+<div class="guidelines">
+<h4>Articles should be:</h4>
+
+<ul>
+<li>POSITIVE.  We don&#8217;t want this space to be a slag forum. 
+Write about things you like, ignore the things you don&#8217;t.</li>
+
+<li>AT LEAST TWO SENTENCES LONG.  You don&#8217;t have to write &#8220;War
+and Peace&#8221;, but a one sentence description won&#8217;t cut it.</li>
+
+<li>INTERESTING.  Why should we go to this particular
+establishment versus the metric ton of other, possibly
+similar places in Portland?  Make us want to go there.</li>
+
+<li>INFORMATIVE.  Try to give us as much pertinent information
+as possible.  Address, phone number, website, hours open,
+etc.  True, you are not required to know all the above, but
+incomplete entries mean WE have to spend the time looking up
+all that information before the listing gets posted.  And we
+don&#8217;t always have all the time we want to devote to this
+project, this isn&#8217;t our job.  Be nice to us.</li>
+</ul>
+</div>
+
+<div class="guidelines shouldnt">
+<h4>Conversely, articles SHOULDN&#8217;T BE:</h4>
+<ul>
+<li>UNINFORMATIVE.  Just saying &#8220;Awesome Happy Hour food
+everyday until 7pm&#8221; doesn&#8217;t tell us anything about what the
+food is, what the price of food is, what the ambiance of the
+establishment is like, or give us any other reason to go
+here.  Really, would you go to this place with only that
+information?</li>
+
+<li>WRITTEN IN THE FIRST PERSON.  Meaning, this is not a space
+for SELF-PROMOTION.  We understand that getting the word out
+about your space may be tough, especially if you&#8217;re new. 
+But kids, this is a REVIEW site.  If you&#8217;re that desperate,
+just write the review in third person.  Or bribe one of your
+friends.</li>
+
+<li>ABOUT EXPENSIVE PLACES.  This is a low budget guide.  One
+should leave a dining establishment satisfied without
+spending more than $10, not including tip.</li>
+
+<li>ABOUT CORPORATE CHAINS.  True, a few have slipped through
+the cracks (like Fred Meyer) but do we really need a review
+about a Starbucks?  Do we really need to ask this question?
+ Local chains are okay, though.</li>
+
+<li>If you have any questions, please <a href="/contact/">contact us.</a>
+If not, please submit your entry!</li>
+</ul>
+</div>
+<div class="spacer">&nbsp;</div>
+
+<p class="note">HTML is not allowed in any field. You can, however, use <a href="http://www.textism.com/tools/textile/">Textile</a> syntax to add formatting to your description field.</p>
+
+<form id="create_event" name="create_event" action="spam_is_evil.html" method="post">
+	<fieldset>
+
+		{% if form.name.errors %}
+			<p class="error">There was a problem with your article name, possibly from an @ character (there can be no @ characters in this field thanks to spambots).</p>
+		{% else %}
+		{% if form.slug.errors %}
+			<p class="error">An article with this name (or one very close to it) already exists, or you have an "@" in your name, which isn't allowed. (Blame the spambots.)</p>
+		{% endif %}
+		{% endif %}
+		<label class="required" for="id_name">Name</label>
+		{{ form.name }}<br />
+		<p class="help">This field must be unique, so be as specific as possible. (ie: "Fresh Pot North" or "Fresh Pot Hawthorne" instead of just "Fresh Pot")</p>
+
+		{% if form.quadrant.errors %}
+			<p class="error">{{ form.quadrant.errors|join:", "}}</p>
+		{% endif %}
+		 <label class="required" for="id_quadrant">Quadrant:</label>
+		{{ form.quadrant }}<br />
+
+		{% if form.section.errors %}
+			<p class="error">{{ form.section.errors|join:", "}}</p>
+		{% endif %}
+		 <label class="required" for="id_section">Section:</label>
+		{{ form.section }}<br />
+
+		{% if form.description.errors %}
+			<p class="error">{{ form.description.errors|join:", "}}</p>
+		{% endif %}
+		 <label class="required" for="id_description">Description:</label>
+		{{ form.description }}<br />
+<!-- 		<p class="quiet">If you want credit for your submission, put your name and email at the end of the Description.</p> -->
+
+		 <label class="required" for="id_your_name" id="id_your_name-label">Your Name:</label>
+		{{ form.your_name }}<br />
+		<p class="help">So we can credit you</p>
+
+		 <label class="required" for="id_your_email" id="id_your_email-label">Your Email:</label>
+		{{ form.your_email }}<br />
+		<p class="help">So we can harass you (just kidding, we hate spam just like you, but this field is required.)</p>
+
+
+		</fieldset><fieldset>
+		<legend>Optional Fields</legend>
+		{% if form.address.errors %}
+			<p class="error">{{ form.address.errors|join:", "}}</p>
+		{% endif %}
+		 <label for="id_address">Address:</label>
+		{{ form.address }}<br />
+		<p class="help">e.g. 5600 NE Sandy Blvd</p>
+
+		{% if form.phone.errors %}
+			<p class="error">{{ form.phone.errors|join:", "}}</p>
+		{% endif %}
+		 <label for="id_phone">Phone:</label>
+		{{ form.phone }}<br />
+		<p class="help">e.g. 503-222-1212</p>
+
+		{% if form.details.errors %}
+			<p class="error">{{ form.details.errors|join:", "}}</p>
+		{% endif %}
+		 <label for="id_details">Hours:</label>
+		{{ form.details }}<br />
+		<p class="help">e.g. M-F, 11am-5pm, Closed Sa-Su</p>
+
+		{% if form.url.errors %}
+			<p class="error">{{ form.url.errors|join:", "}}</p>
+		{% endif %}
+		 <label for="id_url">URL / Link:</label>
+		{{ form.url }}<br />
+		<p class="help">e.g. http://pdxguide.org/</p>
+	</fieldset>
+
+	{# <div id="actions"><input id="submit-button" type="image" value="Submit Article" src="/media/img/submit_button.gif" /></div> #}
+
+	<div id="actions"><p style="padding:6px; background:#ff0; ">You need to enable javascript in order to submit an article. Thank spambots for this inconvenience.</p></div>
+	<div id="spambots"></div>
+
+	<p>Entries are reviewed by the editors before they go on the
+	website.</p>
+
+</form>
+<script type="text/javascript">
+
+	function checkTitlefield()
+	{
+	  var frm = $('create_event');
+      var hasEmail  = /@/;
+	 if (hasEmail.test(frm['id_name'].value))
+		  {
+			alert('No @ characters in name, please (blame spambots)');
+			frm['id_name'].focus();
+			return false;
+		  }
+		  else
+		  {
+			return true;
+		  }
+	}
+
+ 	function submitEventForm() {
+		if (checkForm('create_event')) {
+			if (checkTitlefield()) {
+				$('create_event').submit();
+			}
+		}
+	}
+
+
+		// var frmvalidator = new Validator("create_event");
+		// frmvalidator.addValidation("name","req","Please enter a name for the article.");
+		// frmvalidator.addValidation("quadrant","req","Please select a Quadrant.");
+		// frmvalidator.addValidation("description","req","Please enter a description.");
+		// frmvalidator.addValidation("your_name","req","Please enter your name.");
+		// frmvalidator.addValidation("your_email","req","Please enter your email.");
+		// frmvalidator.addValidation("your_email","email","Please enter a valid email.");
+		// 	 	frmvalidator.setAddnlValidationFunction("checkTitlefield");
+
+		window.addEvent('domready', function() {
+			$('actions').setHTML('<a class="submit-button" href="#" onclick="$(\'create_event\').action=\'/submit/\'; submitEventForm(); return false;"><img src="/media/img/submit_button.gif" alt="submit article" /></a>');
+            $('spambots').setHTML('<input type="hidden" name="jsCheck" value="spambots-are-evil" />');
+
+			var reqFields = $('create_event').getElements('.required');
+			reqFields.forEach(function(field){
+				if (foo = field.getProperty('for')) {
+					$(foo).addClass('required-field');
+				}
+			});	
+
+		});
+
+
+</script>
+{% endblock %}

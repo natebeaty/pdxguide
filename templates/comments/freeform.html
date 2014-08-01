@@ -1,0 +1,55 @@
+{% if display_form %}
+<form class="comment-form" id="comment-form" action="spam_is_evil.html" method="post">
+<fieldset>
+	<label for="id_person_name" class="required" id="id_person_name-label">your name:</label> 
+	<input class="vTextField required" type="text" id="id_person_name" name="person_name" /><br />
+
+	<label for="id_person_email" class="inline">your e-mail:</label>
+	 <input class="vEmailField" type="text" id="id_person_email" name="person_email" /><br />
+		<p class="help">never shown on the site, nor shared.</p>
+
+	<label for="id_person_url" class="inline">your url:</label>
+	 <input class="vURLField" type="text" id="id_person_url" name="person_url" /><br />
+		<p class="help">e.g.: http://lab-zine.org/</p>
+
+	<label for="id_comment" class="required" id="id_comment-label">comment:</label>
+	<textarea name="comment" id="id_comment" rows="5" cols="60"></textarea>
+	<p class="help" style="margin-left:0 !important; color:#333;"><strong>NOTE!</strong> use info above to contact the business for questions. they <strong>don't</strong> read comments on our site.</p>
+
+	<input type="hidden" name="options" value="{{ options }}" />
+	<input type="hidden" name="target" value="{{ target }}" />
+	<input type="hidden" name="gonzo" value="{{ hash }}" />
+	{# <input type="submit" name="preview" value="preview comment" /> #}
+
+	<div id="actions"><p style="padding:6px; background:#ff0; ">You need to enable javascript in order to submit a comment. Thank spambots for this inconvenience.</p></div>
+	<div id="spambots"></div>
+
+</fieldset>
+</form>
+<script type="text/javascript">
+
+function submitForm() {
+    if (checkForm('comment-form')) {
+		$('comment-form').submit();
+    }
+}
+
+window.addEvent('domready', function() {
+	$('actions').setHTML('<a class="submit-button" href="#" onclick="$(\'comment-form\').action=\'/comments/postfree/\'; submitForm(); return false;"><img src="/media/img/preview_comment.png" alt="preview comment" /></a>');
+    // $('spambots').setHTML('<input type="hidden" name="jsCheck" value="spambots-are-evil" />');
+    $('spambots').setHTML('<input type="hidden" name="preview" value="preview comment" />');
+
+	var reqFields = $('comment-form').getElements('.required');
+	reqFields.forEach(function(field){
+		if (foo = field.getProperty('for')) {
+			$(foo).addClass('required-field');
+		}
+	});	
+
+});
+
+        // var frmvalidator = new Validator("comment-form");
+        // frmvalidator.addValidation("person_name","req","Please enter a name.");
+        // frmvalidator.addValidation("comment","req","Please enter text for your comment.");
+</script>
+{% endif %}

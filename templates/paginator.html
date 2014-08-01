@@ -1,0 +1,14 @@
+{% spaceless %}
+<span class="paginate-pages" onclick="Paginator.jumpToPage({{ pages }},'{{ q }}')" title="Page Jump">{{ pages }} Pages</span>
+{% if show_first %}<span class="paginate-first"><a href="/search/?q={{ q }}&page=1" title="First Page">&laquo;</a></span>{% endif %}
+{% if has_previous %}<span class="paginate-previous"><a href="/search/?q={{ q }}&page={{ previous }}" title="Previous Page">&lt;</a></span>{% endif %}
+{% for num in page_numbers %}
+  {% ifequal num page %}
+    <span class="paginate-current" title="Current Page">{{ num }}</span>
+  {% else %}
+    <span class="paginate-link"><a href="/search/?q={{ q }}&page={{ num }}" title="Page {{ num }}">{{ num }}</a></span>
+  {% endifequal %}
+{% endfor %}
+{% if has_next %}<span class="paginate-next"><a href="/search/?q={{ q }}&page={{ next }}" title="Next Page">&gt;</a></span>{% endif %}
+{% if show_last %}<span class="paginate-last"><a href="/search/?q={{ q }}&page={{ pages }}" title="Last Page">&raquo;</a></span>{% endif %}
+{% endspaceless %}

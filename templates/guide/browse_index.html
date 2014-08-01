@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% load markup %}
+{% load comments %}
+{% load guide_extras %}
+
+{% block title %}{{ quadrant.name }}{% endblock %}
+{% block sectionid %}browse{% endblock %}
+{% block breadcrumb %}<a href="/">Home</a> / Browse{% endblock %}
+
+{% block content %}
+	{{ flatpage.content|textile }}
+{% endblock %}

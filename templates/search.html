@@ -1,0 +1,54 @@
+{% extends "base_2col.html" %}
+{% block title %}Search{% endblock %}
+{% block extrahead %}
+	<script src="/media/js/form_validator.js" type="text/javascript" charset="utf-8"></script>
+{% endblock %}
+{% block sectionid %}search{% endblock %}
+{% block breadcrumb %}<a href="/">Home</a> / Search{% endblock %}
+{% block content %}
+{% load guide_extras %}
+{% load comments %}
+<h2>Search</h2>
+
+{% if message %}
+<div class="alert">{{ message }}</div>
+{% endif %}
+
+<form id="search-form" action="" method="get" >
+	<fieldset>
+		<label for="q">Search for:</label>
+		<input type="text" name="q" value="{{ q }}" id="q" />
+		<input id="go-button" type="image" value="Submit Search" src="/media/img/search_button.png" />
+		<p class="help">Currently search is rudimentary. Keep it simple.</p>
+	</fieldset>
+
+</form>
+
+<script type="text/javascript">
+
+		var frmvalidator = new Validator("search-form");
+		frmvalidator.addValidation("q","req","Please enter a query.");
+
+</script>
+
+{% if results %}
+{% if is_paginated %}<div class="paginator top">{% paginator 4 %}</div>{% endif %}
+<div id="search-results">
+<dl>
+{% for object in results %}
+	{% get_free_comment_count for guide.article object.id as comment_count %}
+		<dt><a href="{{ object.get_absolute_url|escape }}">{{ object.fixed_name|escape }}
+			{% if comment_count %}<span class="comment_count">({{ comment_count }} comment{{ comment_count|pluralize }})</span>{% endif %}
+			</a></dt>
+		<dd><span class="quadrant"><a href="{{ object.quadrant.get_absolute_url }}">{{ object.quadrant.name|escape }}</a></span> / <span class="quadrant"><a href="{{ object.quadrant.get_absolute_url|escape }}{{ object.section.slug }}/">{{ object.section.name|escape }}</a></span>
+		<p>{{ object.description|truncatewords:"30"|escape }}</p>
+		</dd>
+{% endfor %}
+</dl>
+</div>
+
+{% if is_paginated %}<div class="paginator">{% paginator 4 %}</div>{% endif %}
+{% endif %}
+
+{% endblock %}
+{% block content-secondary %}{% endblock %}

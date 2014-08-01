@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Comment posted{% endblock %}
+{% block breadcrumb %}<a href="/">Home</a> / Comment posted{% endblock %}
+
+{% block content %}
+
+<h2>Comment posted successfully.</h2>
+
+<p>Thanks for contributing. Your comment will show up on the site in a few minutes. {% if object %}(<a href="{{ object.get_absolute_url }}">Back to the article</a>){% endif %}</p>
+
+{% endblock %}

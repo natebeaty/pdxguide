@@ -1,0 +1,114 @@
+{% load markup %}
+{% load guide_extras %}
+{% load sidenav_lists %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<meta name="ROBOTS" content="ALL" />
+	<meta http-equiv="imagetoolbar" content="no" />
+	<meta name="MSSmartTagsPreventParsing" content="true" />
+
+	<title>Zinester's Guide to Portland | {% block title %}Low/no budget guide to Portland, OR{% endblock %}</title>
+	{% block extrahead %}{% endblock %}
+	<link href="/media/css/{% block cssid %}base{% endblock %}.css" rel="stylesheet" type="text/css" media="screen" />
+	<link href="/media/css/print.css" rel="stylesheet" type="text/css" media="print" />
+	<link href="/media/css/print.css" rel="stylesheet" type="text/css" media="print" />
+	<link href="/media/css/mobile.css" rel="stylesheet" type="text/css" media="handheld" />
+	<script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+	<script src="/media/js/mootools.v1.1.js" type="text/javascript"></script>
+	<script src="/media/js/clixel_func.js" type="text/javascript"></script>
+</head>
+<body id="{% block sectionid %}generic{% endblock %}" class="{% block coltype %}default{% endblock %}" {% block extrabody %}{% endblock %}>
+	<p class="hidden">
+		<a href="#content">Skip to content</a>
+	</p>
+<div id="header">
+        <h1 id="logo"><a href="/" title="Pdxguide Homepage" id="home-link"><span>Pdxguide</span></a></h1>
+		<div id="search-bar">
+			<form id="search-form-small" action="/search/" method="get">
+				<fieldset class="simple">
+				<label for="query" class="hidden">Search:</label>
+				<input type="text" name="q" id="query" />
+				<input id="search-button" type="image" src="/media/img/search_button.png" name="go" />
+				</fieldset>
+			</form>
+		</div>
+        <div id="top-nav">
+		<ul>
+                <!-- <li><a id="nav-homepage" class="activ" href="/">home</a></li> -->
+                <!-- <li><a id="nav-browse" href="/browse/">browse</a></li> -->
+                <li><a id="nav-submit" href="/submit/">submit</a></li>
+                <li><a id="nav-printcopy" href="/printcopy/">printcopy</a></li>
+                <!-- <li><a id="nav-faq" href="/faq/">faq</a></li> -->
+                <li><a id="nav-contact" href="/contact/">contact</a></li>
+        </ul>
+		</div>
+</div><!-- END Header -->
+<div id="wrapper">	
+	<div id="side-nav">
+		<h3>Quadrants</h3>
+		<ul>
+		{% get_quadrant_list as quadrant_list %}
+		{% for quadrant in quadrant_list %}
+			<li><a id="nav-quadrant-{{ quadrant.slug }}" title="{{ quadrant.name|escape }}" href="/browse/{{quadrant.slug}}/" ><span>{{ quadrant.name|escape }}</span></a></li>
+		{% endfor %}
+		</ul>
+		<h3>Sections</h3>
+		<ul>
+			{% get_section_list as section_list %}
+			{% for section in section_list %}
+				<li><a id="nav-section-{{ section.slug }}" title="{{ section.name|escape }}" href="/browse/all/{{section.slug}}/" ><span>{{ section.name|escape }}</span></a></li>
+			{% endfor %}
+		</ul>
+		<h3>Feeds</h3>
+		<ul>
+			<li><a class="feed" href="/rss/articles/">Articles</a></li>
+			<li><a class="feed" href="/rss/comments/">Comments</a></li>
+		</ul>		
+	</div><!-- END #side-nav -->
+
+	<div id="columnwrap">
+		{% block columnwrap %}
+	    <div id="content">
+			<div id="breadcrumb">
+				{% block breadcrumb %}
+					Home
+				{% endblock %}
+			</div>
+			<div id="content{% block contentdiv %}-main{% endblock %}">
+				{% block content %}{% endblock %}
+			</div><!-- END #content-main -->
+
+			<div id="content-secondary">
+				{% block content-secondary %}
+				<h3>Recent Articles</h3>
+				{% get_latest_articles 12 as latest_articles %}
+				<div class="articles-small">
+					{% include "comments/recent_article_list.html" %}
+				</div>
+				{% comment %}
+				{% load comments %}
+				{% get_latest comments.FreeComment 4 as comment_list %}
+				{% if comment_list %}					
+					<h3>Recent Comments</h3>
+					{% include "comments/recent_comment_list.html" %}
+				{% endif %}
+				{% endcomment %}
+				
+				{% endblock %}
+			</div> <!-- END #content-secondary -->
+	    </div><!-- END #content -->
+		<div class="spacer">&nbsp;</div>
+	{% endblock %}
+	</div><!-- END #columnwrap -->
+</div><!-- END #wrapper -->
+
+<div id="footer">
+    <!-- <p id="footer-nav"><a href="/submit/">submit</a> <a href="/printcopy/">printcopy</a> <a href="/contact/">contact</a> -->
+    <a class="simple" id="clixel" href="http://clixel.com/" title="Site by Clixel"><span>Site by clixel.</span></a>
+    <a class="simple" id="django-joint" href="http://djangoproject.com/" title="Django"><span>A django joint.</span></a>
+	</p>
+</div>
+
+</body>
+</html>

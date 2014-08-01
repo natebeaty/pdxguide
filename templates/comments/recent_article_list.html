@@ -1,0 +1,8 @@
+	<dl>
+{% for object in latest_articles|dictsortreversed:"date_added" %}
+		<dt><a href="{{ object.get_absolute_url|escape }}">{{ object.fixed_name|escape }}</a></dt>
+		<dd><span class="quadrant"><a href="{{ object.quadrant.get_absolute_url }}">{{ object.quadrant.name|escape }}</a></span> / <span class="quadrant"><a href="{{ object.quadrant.get_absolute_url|escape }}{{ object.section.slug }}/">{{ object.section.name|escape }}</a></span>
+		<p>{{ object.description|truncatewords:"30"|escape }}</p>
+		</dd>
+{% endfor %}
+</dl>
